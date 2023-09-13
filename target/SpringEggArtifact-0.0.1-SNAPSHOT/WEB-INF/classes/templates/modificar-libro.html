@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIBLIOTECA MARIANO MORENO</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+
+<body style="text-align: center;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="">BIBLIOTECA MARIANO MORENO</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">INICIO <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/libros}">LISTA DE LIBROS<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1>MODIFICAR LIBRO</h1>
+    <div th:if="${exito}!=null" class="card text-white bg-success mb-3">
+        <div class="card-body">
+            <h5 class="card-title">¡Exito!</h5>
+            <p class="card-text" th:text=${exito}></p>
+        </div>
+    </div>
+    <div th:if="${error1}!=null" class="card text-white bg-danger mb-3">
+        <div class="card-body">
+            <h5 class="card-title">No se pudo registrar el libro</h5>
+            <p class="card-text" th:text=${error1}></p>
+        </div>
+    </div>
+    <div th:if="${error2}!=null" class="card text-white bg-danger mb-3">
+        <div class="card-body">
+            <h5 class="card-title" th:text=${error2}></h5>
+        </div>
+    </div>
+    <form th:action="@{/libros/modificar/__${libro.id}__}" method="post">
+        ISBN: <input type="number" name="ISBN" placeholder="ISBN" min="0" required th:value="${libro.isbn}">
+        Título: <input type="text" name="titulo" placeholder="Título" required th:value="${libro.titulo}">
+        Año: <input type="number" name="anio" placeholder="Año" required th:value="${libro.anio}">
+        Ejemplares Totales: <input type="number" name="EjemplaresT" placeholder="Ejemplares Totales" min="0" required
+            th:value="${libro.ejemplares}">
+        Ejemplares Prestados: <input type="number" name="EjemplaresP" placeholder="Ejemplares Prestados" min="0"
+            required th:value="${libro.ejemplaresPrestados}">
+        Autor: <select name="Autor" required>
+            <option th:text="${libro.autor.apellido} + ' ' + ${libro.autor.nombre}" th:value="${libro.autor.id}"
+                selected></option>
+            <option th:each="autor:${autores}" th:value="${autor.id}"
+                th:text="${autor.apellido} + ' ' + ${autor.nombre}"></option>
+        </select>
+        Editorial: <select name="Editorial" required>
+            <option th:text="${libro.editorial.nombre}" th:value="${libro.editorial.id}" selected></option>
+            <option th:each="editorial:${editoriales}" th:value="${editorial.id}" th:text="${editorial.nombre}">
+            </option>
+        </select>
+        <input type="submit" class="btn btn-primary" value="Modificar libro ">
+    </form>
+    Si su autor o editorial no se encuentra puede agregarla
+    <a th:href="@{/autores/formulario}" class="btn btn-success">Agregar autor</a>
+    <a th:href="@{/editoriales/formulario}" class="btn btn-success">Agregar editorial</a>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
